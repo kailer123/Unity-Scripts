@@ -20,6 +20,7 @@ public class enemyAIControl : MonoBehaviour
     public GameObject healthPack;
     public GameObject ammoPack;
     int randPack;
+    bool isQuiting = false;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -74,10 +75,17 @@ public class enemyAIControl : MonoBehaviour
         }
     }
 
+    void OnApplicationQuit()
+    {
+        isQuiting = true;    
+    }
     public void OnDestroy()
     {
-        spawnPack();
-        gManager.score += 1000;
+        if(!isQuiting)
+        {
+            spawnPack();
+            gManager.score += 1000;
+        }
     }
 }
 

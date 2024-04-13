@@ -5,7 +5,24 @@ using UnityEngine.SceneManagement;
 
 public class Load : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    scoreStorage ScoreStorage21;
+    private void Start()
+    {
+        Cursor.visible = true;
+        ScoreStorage21 = GameObject.FindWithTag("scoreStorage").GetComponent<scoreStorage>();
+        ScoreStorage21.storedScore = 0;
+    }
+
+    public void Vintera()
+    {
+        SceneManager.LoadSceneAsync(3);
+    }
+
+    public void Zpet()
+    {
+        SceneManager.LoadSceneAsync(0);
+    }
     public void PlayGame()
     {
         SceneManager.LoadSceneAsync(1);
@@ -13,19 +30,5 @@ public class Load : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
-    }
-    private void Start()
-    {
-        Cursor.visible = true;
-    }
-
-    public void Vintera()
-    {
-        SceneManager.LoadSceneAsync(2);
-    }
-
-    public void Zpet()
-    {
-        SceneManager.LoadSceneAsync(0);
     }
 }

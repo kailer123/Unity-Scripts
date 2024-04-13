@@ -1,52 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 public class SoundtrackManager : MonoBehaviour
 {
     public AudioClip[] soundtracks;
-    private AudioSource audioSource;
-    private int currentSoundtrackIndex = 0;
-
-    
-    void Start()
-    {
-        // Get the AudioSource component attached to the GameObject
-        audioSource = GetComponent<AudioSource>();
-
-        // Check if any soundtracks are assigned
-        if (soundtracks.Length > 0)
-        {
-            // Start playing the first soundtrack
-            PlayNextSoundtrack();
-        }
-        else
-        {
-            Debug.LogError("No soundtracks assigned to the SoundtrackManager!");
-        }
-    }
-
+    public AudioClip menuMusic;
+    public AudioSource audioSource;
+    int currentSoundtrackIndex = 0;
+    Scene currentScene;
 
     void Update()
     {
-        // Check if the current soundtrack has finished playing
-        if (!audioSource.isPlaying)
+        currentScene = SceneManager.GetActiveScene();
+        int sceneIndex = currentScene.buildIndex;
+
+        switch (sceneIndex)
         {
-            // Move to the next soundtrack
-            PlayNextSoundtrack();
+            case 0:
+                if (audioSource.isPlaying == false || audioSource.clip != menuMusic)
+                {
+                    PlayMenu();
+                }
+                break;
+            case 1:
+                if (audioSource.isPlaying == false || audioSource.clip == menuMusic)
+                {
+                    PlayNextSoundtrack();
+                }
+                break;
         }
     }
-
     void PlayNextSoundtrack()
     {
-        // Increment the index to play the next soundtrack
         currentSoundtrackIndex = (currentSoundtrackIndex + 1) % soundtracks.Length;
-
-        // Set the next soundtrack to play
         audioSource.clip = soundtracks[currentSoundtrackIndex];
+        audioSource.Play();
+    }
 
-        // Play the next soundtrack
+    void PlayMenu()
+    { 
+        audioSource.clip = menuMusic;
         audioSource.Play();
     }
 }
